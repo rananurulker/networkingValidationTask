@@ -52,11 +52,15 @@ public class NetworkingSteps {
 
     }
 
-    @When("Domain {string} is resolved to IP {string}")
-    public void domainIsResolvedToIP(String domain, String ipAddress) throws UnknownHostException {
+    @When("Domain {string} is resolved")
+    public void domainIsResolved(String domain) throws UnknownHostException {
         InetAddress inetAddress = InetAddress.getByName(domain);
         resolvedIP = inetAddress.getHostAddress();
         scenario.log("Resolved " + domain + " to " + resolvedIP);
+    }
+
+    @Then("the resolved IP should include {string}")
+    public void theResolvedIPShouldInclude(String ipAddress) {
         scenario.log("Expected IP: " + ipAddress + " | Actual IP: " + resolvedIP);
         Assert.assertEquals("Domain did not resolve correctly", ipAddress, resolvedIP);
 
@@ -71,7 +75,7 @@ public class NetworkingSteps {
         }
     }
 
-    @Then("port {int} on {string} should not be reachable")
+    @And("port {int} on {string} should not be reachable")
     public void portShouldNotBeReachable(int port, String ip) {
         try (Socket socket = new Socket()) {
             socket.connect(new InetSocketAddress(ip, port), 2000);
@@ -81,7 +85,7 @@ public class NetworkingSteps {
         }
     }
 
-    @When("I perform traceroute to IP address {string}")
+    @And("I perform traceroute to IP address {string}")
     public void iPerformTracerouteToIPAddress(String ipAddress) throws Exception {
 
         List<String> command = new ArrayList<>();
@@ -134,5 +138,4 @@ public class NetworkingSteps {
         }
         return result;
     }
-
 }
