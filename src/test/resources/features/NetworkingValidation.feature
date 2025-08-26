@@ -9,7 +9,6 @@ Feature: Networking Validation Task
       | 101.33.28.0      | 101.33.29.0  |
 
   Scenario: Resolve domain and check port reachability
-
     When Domain "google-public-dns-a.google.com" is resolved to IP "8.8.8.8"
     Then port 53 on "8.8.8.8" should be reachable
     Then port 80 on "8.8.8.8" should not be reachable
