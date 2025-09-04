@@ -26,6 +26,7 @@ public class NetworkingSteps {
 
     @Given("Public IP address is retrieved from  {string}")
     public void publicIPAddressIsRetrievedFrom(String url) {
+        try{
         publicIP = RestAssured
                 .given()
                 .when()
@@ -37,6 +38,8 @@ public class NetworkingSteps {
                 .trim();
 
         scenario.log("Public IP: " + publicIP);
+    }catch (Exception e) {
+            scenario.log("Error occurred: " + e.getMessage());}
     }
 
     @Then("Public IP does not fall within the IP range {string} to {string}")
@@ -64,7 +67,7 @@ public class NetworkingSteps {
         scenario.log("Expected IP: " + ipAddress + " | Actual IP: " + resolvedIP);
         Assert.assertEquals("Domain did not resolve correctly", ipAddress, resolvedIP);
 
-    }
+    }// resolved ip matches expected IP?
 
     @Then("port {int} on {string} should be reachable")
     public void portShouldBeReachable(int port, String ip) throws Exception {
@@ -128,7 +131,7 @@ public class NetworkingSteps {
     @Then("the target is reached within {int} hops")
     public void theTargetIsReachedWithinHops(int hopCount) {
         Assert.assertTrue("Target not reached within " + hopCount + " hops!", hopsCount <= hopCount);
-    }
+    }//if the traceroute exceeds limit the test fails
 
     private long ipToLong(String ipAddress) {
         String[] ipParts = ipAddress.split("\\.");

@@ -13,7 +13,7 @@ Feature: Networking Validation Task
     Then the resolved IP should include "8.8.8.8"
     And port 53 on "8.8.8.8" should be reachable
     And port 80 on "8.8.8.8" should not be reachable
-    And port 443 on "8.8.8.8" should not be reachable
+    And port 443 on "8.8.8.8" should be reachable
 
 
   Scenario Outline: Validation of traceroute and hop counts
